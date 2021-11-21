@@ -18,6 +18,10 @@ public class System2048 : MonoBehaviour
     [Header("畫布 2048")]
     public Transform traCanvas2048;
 
+    // 私人欄位顯示在屬性面板上
+    [SerializeField]
+    private Direction direction;
+
     /// <summary>
     /// 所有區塊資料
     /// </summary>
