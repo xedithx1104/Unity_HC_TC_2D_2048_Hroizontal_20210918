@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 /// <summary>
 /// 2048 系統
@@ -21,15 +22,23 @@ public class System2048 : MonoBehaviour
     // 私人欄位顯示在屬性面板上
     [SerializeField]
     private Direction direction;
+    private bool isClick;
+    private Vector3 positionKeyDown;
+    private Vector3 positionKeyUp;
 
     /// <summary>
     /// 所有區塊資料
     /// </summary>
-    public BlockData[,] blocks = new BlockData[4, 4];
+    public BlockData[,] blocks = new BlockData[1, 4];
 
     private void Start()
     {
         Initialize();
+    }
+
+    private void Update()
+    {
+        CheckDirection();
     }
 
     /// <summary>
@@ -50,6 +59,7 @@ public class System2048 : MonoBehaviour
         PrintBlockData();
         CreateRandomNumberBlock();
         CreateRandomNumberBlock();
+        CreateRandomNumberBlock();
     }
 
     /// <summary>
@@ -66,7 +76,7 @@ public class System2048 : MonoBehaviour
                 // 編號、數字與座標
                 // result += "編號" + blocks[i, j].v2Index + " <color=red>數字：" + blocks[i, j].number + "</color> <color=yellow>" + blocks[i, j].v2Position + "</color> |";
                 // 編號、數字與物件
-                result += "編號" + blocks[i, j].v2Index + " <color=red>數字：" + blocks[i, j].number + "</color> <color=yellow>" + blocks[i, j].goBlock + "</color> |";
+                result += "編號" + blocks[i, j].v2Index + " <color=red>數字：" + blocks[i, j].number + "</color> <color=yellow>" + (blocks[i, j].goBlock ? "有" : "一") + "</color> |";
             }
 
             result += "\n";
@@ -99,14 +109,119 @@ public class System2048 : MonoBehaviour
         // 將數字 2 輸入到隨機區塊內
         dataRandom.number = 2;
 
-        PrintBlockData();
-
         // 實例化-生成(物件，父物件)
         GameObject tempBlock = Instantiate(goNumberBlock, traCanvas2048);
         // 生成區塊 指定座標
         tempBlock.transform.position = dataRandom.v2Position;
         // 儲存 生成區塊 資料
         dataRandom.goBlock = tempBlock;
+
+        PrintBlockData();
+    }
+
+    /// <summary>
+    /// 檢查方向
+    /// </summary>
+    private void CheckDirection()
+    {
+        if (!isClick && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            isClick = true;
+            positionKeyDown = Input.mousePosition;
+        }
+        else if (isClick && Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            isClick = false;
+            positionKeyUp = Input.mousePosition;
+
+            Vector3 directionValue = positionKeyUp - positionKeyDown;
+            Vector2 normalized = directionValue.normalized;
+
+            if (Mathf.Abs(normalized.x) > Mathf.Abs(normalized.y)) direction = normalized.x > 0 ? Direction.Right : Direction.Left;
+            else if (Mathf.Abs(normalized.y) > Mathf.Abs(normalized.x)) direction = normalized.y > 0 ? Direction.Up : Direction.Down;
+            else direction = Direction.None;
+
+            if (direction != Direction.None) MoveBlock();
+        }
+    }
+
+    /// <summary>
+    /// 移動區塊
+    /// </summary>
+    private void MoveBlock()
+    {
+        BlockData blockMove = new BlockData();
+        BlockData blockCheck = new BlockData();
+        bool canMove = false;
+
+        switch (direction)
+        {
+            case Direction.None:
+                break;
+            case Direction.Right:
+                break;
+            case Direction.Left:
+
+                for (int i = 0; i < blocks.GetLength(0); i++)
+                {
+                    for (int j = 0; j < blocks.GetLength(1); j++)
+                    {
+                        if (blocks[i, j].number == 0) continue;
+
+                        blockMove = blocks[i, j];
+
+                        for (int k = j - 1; k >= 0; k--)
+                        {
+
+                            if (blocks[i, k].number == 0 || blocks[i, k].number == blockMove.number)
+                            {
+                                canMove = true;
+                                blockCheck = blocks[i, k];
+                            }
+                            else if (blocks[i, k].number != 0 && blocks[i, k].number != blockMove.number) continue;
+                        }
+
+                        if (canMove) CanMoveAndMoveBlock(blockMove, blockCheck);
+
+                        PrintBlockData();
+                    }
+                }
+
+                break;
+            case Direction.Up:
+                break;
+            case Direction.Down:
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 可以移動並移動區塊
+    /// </summary>
+    /// <param name="blockMove">要移動的區塊</param>
+    /// <param name="blockCheck">檢查的區塊</param>
+    private void CanMoveAndMoveBlock(BlockData blockMove, BlockData blockCheck)
+    {
+        blockMove.goBlock.transform.position = blockCheck.v2Position;
+
+        if (blockCheck.number == blockMove.number)
+        {
+            int number = blockCheck.number + blockMove.number;
+            blockCheck.number = number;
+            blockCheck.goBlock.transform.Find("數字").GetComponent<Text>().text = number.ToString();
+            blockMove.number = 0;
+            Destroy(blockMove.goBlock);
+            blockMove.goBlock = null;
+        }
+        else
+        {
+            blockCheck.number = blockMove.number;
+            blockCheck.goBlock = blockMove.goBlock;
+            blockMove.number = 0;
+            blockMove.goBlock = null;
+        }
     }
 }
 
