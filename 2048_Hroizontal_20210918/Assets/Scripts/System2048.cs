@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Linq;
 using UnityEngine.UI;
+using System.Linq;
+using System.Collections;
 
 /// <summary>
 /// 2048 系統
@@ -29,7 +30,7 @@ public class System2048 : MonoBehaviour
     /// <summary>
     /// 所有區塊資料
     /// </summary>
-    public BlockData[,] blocks = new BlockData[1, 4];
+    public BlockData[,] blocks = new BlockData[4, 4];
 
     private void Start()
     {
@@ -57,7 +58,6 @@ public class System2048 : MonoBehaviour
         }
 
         PrintBlockData();
-        CreateRandomNumberBlock();
         CreateRandomNumberBlock();
         CreateRandomNumberBlock();
     }
@@ -141,14 +141,14 @@ public class System2048 : MonoBehaviour
             else if (Mathf.Abs(normalized.y) > Mathf.Abs(normalized.x)) direction = normalized.y > 0 ? Direction.Up : Direction.Down;
             else direction = Direction.None;
 
-            if (direction != Direction.None) MoveBlock();
+            if (direction != Direction.None) StartCoroutine(MoveBlock());
         }
     }
 
     /// <summary>
     /// 移動區塊
     /// </summary>
-    private void MoveBlock()
+    private IEnumerator MoveBlock()
     {
         BlockData blockMove = new BlockData();
         BlockData blockCheck = new BlockData();
@@ -156,15 +156,43 @@ public class System2048 : MonoBehaviour
 
         switch (direction)
         {
-            case Direction.None:
-                break;
             case Direction.Right:
+
+                for (int i = 0; i < blocks.GetLength(0); i++)
+                {
+                    for (int j = blocks.GetLength(1) - 2; j >= 0; j--)
+                    {
+                        if (blocks[i, j].number == 0) continue;
+
+                        blockMove = blocks[i, j];
+
+                        for (int k = j + 1; k < blocks.GetLength(1); k++)
+                        {
+                            if (blocks[i, k].number == 0 || blocks[i, k].number == blockMove.number)
+                            {
+                                canMove = true;
+                                blockCheck = blocks[i, k];
+                                continue;
+                            }
+                            else if (blocks[i, k].number != 0 && blocks[i, k].number != blockMove.number) break;
+                        }
+
+                        if (canMove)
+                        {
+                            canMove = false;
+                            CanMoveAndMoveBlock(blockMove, blockCheck);
+                        }
+
+                        PrintBlockData();
+                    }
+                }
+
                 break;
             case Direction.Left:
 
                 for (int i = 0; i < blocks.GetLength(0); i++)
                 {
-                    for (int j = 0; j < blocks.GetLength(1); j++)
+                    for (int j = 1; j < blocks.GetLength(1); j++)
                     {
                         if (blocks[i, j].number == 0) continue;
 
@@ -172,16 +200,20 @@ public class System2048 : MonoBehaviour
 
                         for (int k = j - 1; k >= 0; k--)
                         {
-
                             if (blocks[i, k].number == 0 || blocks[i, k].number == blockMove.number)
                             {
                                 canMove = true;
                                 blockCheck = blocks[i, k];
+                                continue;
                             }
-                            else if (blocks[i, k].number != 0 && blocks[i, k].number != blockMove.number) continue;
+                            else if (blocks[i, k].number != 0 && blocks[i, k].number != blockMove.number) break;
                         }
 
-                        if (canMove) CanMoveAndMoveBlock(blockMove, blockCheck);
+                        if (canMove)
+                        {
+                            canMove = false;
+                            CanMoveAndMoveBlock(blockMove, blockCheck);
+                        }
 
                         PrintBlockData();
                     }
@@ -189,12 +221,77 @@ public class System2048 : MonoBehaviour
 
                 break;
             case Direction.Up:
+
+                for (int i = 0; i < blocks.GetLength(1); i++)
+                {
+                    for (int j = 1; j < blocks.GetLength(0); j++)
+                    {
+                        if (blocks[j, i].number == 0) continue;
+
+                        blockMove = blocks[j, i];
+
+                        for (int k = j - 1; k >= 0; k--)
+                        {
+
+                            if (blocks[k, i].number == 0 || blocks[k, i].number == blockMove.number)
+                            {
+                                canMove = true;
+                                blockCheck = blocks[k, i];
+                            }
+                            else if (blocks[k, i].number != 0 && blocks[k, i].number != blockMove.number) break;
+                        }
+
+                        if (canMove)
+                        {
+                            canMove = false;
+                            CanMoveAndMoveBlock(blockMove, blockCheck);
+                        }
+
+                        PrintBlockData();
+                    }
+                }
+
                 break;
             case Direction.Down:
-                break;
-            default:
+
+                for (int i = 0; i < blocks.GetLength(1); i++)
+                {
+                    for (int j = blocks.GetLength(0) - 2; j >= 0; j--)
+                    {
+                        if (blocks[j, i].number == 0) continue;
+
+                        blockMove = blocks[j, i];
+
+                        for (int k = j + 1; k < blocks.GetLength(0); k++)
+                        {
+
+                            if (blocks[k, i].number == 0 || blocks[k, i].number == blockMove.number)
+                            {
+                                canMove = true;
+                                blockCheck = blocks[k, i];
+                                continue;
+                            }
+                            else if (blocks[k, i].number != 0 && blocks[k, i].number != blockMove.number) break;
+                        }
+
+                        if (canMove)
+                        {
+                            canMove = false;
+                            CanMoveAndMoveBlock(blockMove, blockCheck);
+                        }
+
+                        PrintBlockData();
+                    }
+                }
+
                 break;
         }
+
+
+
+        yield return new WaitForSeconds(0.2f);
+
+        CreateRandomNumberBlock();
     }
 
     /// <summary>
