@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 攻擊系統
+/// 攻擊系統：近距離
 /// </summary>
 public class AttackSystem : MonoBehaviour
 {
