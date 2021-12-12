@@ -17,7 +17,7 @@ public class AttackSystemFar : AttackSystem
     // override 複寫：複寫父類別 virtual 成員
     public override void Attack()
     {
-        base.Attack();      // base 基底：父類別的內容
+        // base.Attack();      // base 基底：父類別的內容
 
         // 生成(物件，座標，角度)
         // 生成的物件名稱後方會有 (Clone)

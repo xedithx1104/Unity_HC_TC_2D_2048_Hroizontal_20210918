@@ -614,6 +614,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   direction: 0
+  stateTurm: 0
+  onEnemyTurn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 998809892}
+        m_TargetAssemblyTypeName: AttackSystem, Assembly-CSharp
+        m_MethodName: Attack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &319418683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,6 +2284,7 @@ GameObject:
   - component: {fileID: 952433806}
   - component: {fileID: 952433805}
   - component: {fileID: 952433807}
+  - component: {fileID: 952433808}
   m_Layer: 0
   m_Name: "\u5E7D\u9748"
   m_TagString: Untagged
@@ -2412,9 +2429,33 @@ MonoBehaviour:
   attack: 50
   goTarget: {fileID: 998809885}
   textAttack: {fileID: 1454488691}
+  delayAttack: 3.5
+  delaySendDamage: 0.5
+  parameterAttack: "\u653B\u64CA\u89F8\u767C"
+  onAttackFinish:
+    m_PersistentCalls:
+      m_Calls: []
   positionSpawn: {fileID: 676498724}
   goAttackParticle: {fileID: 6994555136474544839, guid: 30c883db9144b2042b6b4c1b07765417, type: 3}
   speed: 500
+--- !u!114 &952433808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952433801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380d1e7d2cfdcac4e856e7d966524862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 150
+  textHp: {fileID: 2022474440}
+  imgHp: {fileID: 1657939525}
+  tagDamageObject: 
+  parameterDamage: "\u53D7\u50B7\u89F8\u767C"
+  parameterDead: "\u6B7B\u4EA1\u89F8\u767C"
 --- !u!1001 &962904241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2768,6 +2809,24 @@ MonoBehaviour:
   attack: 35
   goTarget: {fileID: 952433801}
   textAttack: {fileID: 1381550935}
+  delayAttack: 1.8
+  delaySendDamage: 0.9
+  parameterAttack: "\u653B\u64CA\u89F8\u767C"
+  onAttackFinish:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 319318531}
+        m_TargetAssemblyTypeName: System2048, Assembly-CSharp
+        m_MethodName: ChangeToMyTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1006655270
 PrefabInstance:
   m_ObjectHideFlags: 0
