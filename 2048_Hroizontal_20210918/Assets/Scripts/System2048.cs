@@ -28,6 +28,8 @@ public class System2048 : MonoBehaviour
     // 私人欄位顯示在屬性面板上
     [SerializeField]
     private Direction direction;
+    [SerializeField]
+    private StateTurn stateTurm;
     /// <summary>
     /// 所有區塊資料
     /// </summary>
@@ -55,7 +57,7 @@ public class System2048 : MonoBehaviour
 
     private void Update()
     {
-        CheckDirection();
+        if (stateTurm == StateTurn.My) CheckDirection();
     }
     #endregion
 
@@ -220,6 +222,7 @@ public class System2048 : MonoBehaviour
         bool canMove = false;                           // 是否可以移動區塊
         bool sameNumber = false;                        // 是否相同數字
         int sameNumberCount = 0;                        // 相同數字合併次數
+        bool canMoveBlockAll = false;                   // 是否全部可以移動區塊
 
         switch (direction)
         {
@@ -229,7 +232,7 @@ public class System2048 : MonoBehaviour
                 {
                     sameNumberCount = 0;                                    // 相同數字合併次數歸零
 
-                    for (int j = blocks.GetLength(1) - 2 ; j >= 0; j--)
+                    for (int j = blocks.GetLength(1) - 2; j >= 0; j--)
                     {
                         blockOriginal = blocks[i, j];
 
@@ -260,6 +263,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;                                 // 全部區塊內可以移動
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -304,6 +308,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -348,6 +353,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -392,6 +398,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -402,7 +409,15 @@ public class System2048 : MonoBehaviour
                 break;
         }
 
-        CreateRandomNumberBlock();                      // 移動後 生成下一顆區塊
+        if (canMoveBlockAll)
+        {
+            stateTurm = StateTurn.Enemy;
+            CreateRandomNumberBlock();                      // 移動後 生成下一顆區塊
+        }
+        else
+        {
+            print("不能移動");
+        }
     }
 
     /// <summary>
@@ -475,4 +490,12 @@ public class BlockData
 public enum Direction
 {
     None, Right, Left, Up, Down
+}
+
+/// <summary>
+/// 回合狀態：我方、敵方
+/// </summary>
+public enum StateTurn
+{
+    My, Enemy
 }

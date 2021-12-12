@@ -25,5 +25,7 @@ public class AttackSystemFar : AttackSystem
         // identity 零角度
         GameObject tempAttack = Instantiate(goAttackParticle, positionSpawn.position, Quaternion.identity);
         tempAttack.GetComponent<Rigidbody2D>().AddForce(new Vector2(speed, 0));
+        // 添加元件<子彈系統>().攻擊力 = 此攻擊系統攻擊力
+        tempAttack.AddComponent<Bullet>().attack = attack;
     }
 }

@@ -2409,8 +2409,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d0fda1135e7704da7c691363f47397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 10
+  attack: 50
   goTarget: {fileID: 998809885}
+  textAttack: {fileID: 1454488691}
   positionSpawn: {fileID: 676498724}
   goAttackParticle: {fileID: 6994555136474544839, guid: 30c883db9144b2042b6b4c1b07765417, type: 3}
   speed: 500
@@ -2605,6 +2606,7 @@ GameObject:
   - component: {fileID: 998809889}
   - component: {fileID: 998809891}
   - component: {fileID: 998809890}
+  - component: {fileID: 998809892}
   m_Layer: 0
   m_Name: "\u9AB7\u9ACF"
   m_TagString: Untagged
@@ -2708,10 +2710,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380d1e7d2cfdcac4e856e7d966524862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 350
   textHp: {fileID: 440627712}
   imgHp: {fileID: 993710616}
   tagDamageObject: "\u9583\u96FB\u7403"
+  parameterDamage: "\u53D7\u50B7\u89F8\u767C"
+  parameterDead: "\u6B7B\u4EA1\u89F8\u767C"
 --- !u!70 &998809890
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2749,6 +2753,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &998809892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998809885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4517867bbc379646861acc7d8c65848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack: 35
+  goTarget: {fileID: 952433801}
+  textAttack: {fileID: 1381550935}
 --- !u!1001 &1006655270
 PrefabInstance:
   m_ObjectHideFlags: 0

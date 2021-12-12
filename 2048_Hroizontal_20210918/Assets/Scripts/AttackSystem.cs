@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 攻擊系統：近距離
@@ -10,6 +11,15 @@ public class AttackSystem : MonoBehaviour
     public float attack = 10;
     [Header("攻擊目標")]
     public GameObject goTarget;
+    [Header("攻擊力介面")]
+    public Text textAttack;
+    #endregion
+
+    #region 事件
+    private void Awake()
+    {
+        textAttack.text = "Atk " + attack;
+    }
     #endregion
 
     #region 方法：公開
