@@ -13,10 +13,11 @@ public class AttackSystem : MonoBehaviour
     #endregion
 
     #region 方法：公開
+    // virtual 虛擬：允許子類別複寫
     /// <summary>
     /// 攻擊方法
     /// </summary>
-    public void Attack()
+    public virtual void Attack()
     {
         print("發動攻擊，攻擊力為：" + attack);
     }

@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 6994555136474544836}
   - component: {fileID: 6994555136474544837}
   - component: {fileID: 6994555136474544838}
+  - component: {fileID: 9154284261147002306}
+  - component: {fileID: 8695539435425463123}
   m_Layer: 0
   m_Name: "\u9060\u8DDD\u653B\u64CA\u7C92\u5B50\u7279\u6548"
-  m_TagString: Untagged
+  m_TagString: "\u9583\u96FB\u7403"
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41,7 +43,7 @@ ParticleSystem:
   m_GameObject: {fileID: 6994555136474544839}
   serializedVersion: 7
   lengthInSec: 5
-  simulationSpeed: 2.5
+  simulationSpeed: 5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -285,7 +287,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.5
-      minScalar: 0.2
+      minScalar: 0.7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4804,3 +4806,40 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!50 &9154284261147002306
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994555136474544839}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &8695539435425463123
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994555136474544839}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
