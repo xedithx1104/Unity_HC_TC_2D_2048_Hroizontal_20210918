@@ -39,7 +39,8 @@ public class AttackSystem : MonoBehaviour
         targetHealthSystem = goTarget.GetComponent<HealthSystem>();
     }
     #endregion
-
+    [Header("攻擊開始事件")]
+    public UnityEvent onAttackStart;
     [Header("攻擊完成事件")]
     public UnityEvent onAttackFinish;
 
@@ -48,7 +49,7 @@ public class AttackSystem : MonoBehaviour
     /// <summary>
     /// 攻擊方法
     /// </summary>
-    public virtual void Attack()
+    public virtual void Attack(float increase = 0)
     {
         // 啟動 協同程序
         StartCoroutine(DelayAttack());
@@ -62,6 +63,7 @@ public class AttackSystem : MonoBehaviour
         ani.SetTrigger(parameterAttack);
         // 延遲 0.5 秒
         yield return new WaitForSeconds(delaySendDamage);
+        onAttackStart.Invoke();
         // 傳送傷害
         targetHealthSystem.Hurt(attack);
         onAttackFinish.Invoke();
