@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     public void ShowFinalCanvas(bool win)
     {
+        goFinalCanvas.SetActive(true);
+
         string title = win ? "Win" : "Lose";
         textFinalTitle.text = title;
     }
